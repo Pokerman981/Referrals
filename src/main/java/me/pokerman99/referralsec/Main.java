@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import me.pokerman99.referralsec.commands.checkCommand;
 import me.pokerman99.referralsec.commands.claimCommand;
 import me.pokerman99.referralsec.commands.referCommand;
+import me.pokerman99.referralsec.commands.reloadCommand;
 import me.pokerman99.referralsec.listeners.connectionListener;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
@@ -83,6 +84,7 @@ public class Main {
         }
 
         {
+            populateVariables();
             registerCommands();
             registerListeners();
         }
@@ -114,11 +116,17 @@ public class Main {
                 .executor(new checkCommand())
                 .build();
 
+        CommandSpec reloadCommand = CommandSpec.builder()
+                .permission("referralsec.reload")
+                .executor(new reloadCommand())
+                .build();
+
         CommandSpec referralCommand = CommandSpec.builder()
                 .permission("referralec.main")
                 .child(referCommand, "refer")
                 .child(checkCommand, "check")
                 .child(claimCommand, "claim")
+                .child(reloadCommand, "reload")
                 .build();
 
         Sponge.getCommandManager().register(instance, referralCommand, "referrals");
@@ -130,12 +138,84 @@ public class Main {
         Sponge.getEventManager().registerListeners(instance, new connectionListener());
     }
 
+    public static String referCommandPlayerNotFound;
+    public static String referCommandHasPlayedBefore;
+    public static String referCommandAlreadyReferred;
+    public static String referCommandSuccessfullyReferred;
+
+    public static String claimCommandNoReferees;
+    public static String claimCommandSuccessfulReferralPlayer1;
+    public static String claimCommandSuccessfulReferralPlayer2;
+
+    public static String checkCommandNoReferees;
+    public static String checkCommandStringBuilderHeader;
+
+    public static String claimCommandCommand1;
+    public static String claimCommandCommand2;
+
     void generateDefaultConfig() {
         rootNode.getNode("config-version").setValue(1.0);
-        rootNode.getNode("successfuly-referred").setValue(0);
+        rootNode.getNode("successfully-referred").setValue(0);
         rootNode.getNode("limbo").setValue(referredNames);
 
+        CommentedConfigurationNode refercommandmessages = rootNode.getNode("data", "messages", "refer-command");
+        {
+            refercommandmessages.getNode("player-not-found").setValue("&cCan't find the player! Make sure the spelling is correct.");
+            refercommandmessages.getNode("has-played-before").setValue("&cThis player has joined before!");
+            refercommandmessages.getNode("already-referred").setValue("&cThis player has already been referred!");
+            refercommandmessages.getNode("successfully-referred").setValue("&aYou have successfully referred, %player%\n\nOnce %player% has played for 6 hours you will both recieve a master key!");
+        }
+
+        CommentedConfigurationNode claimcommandmessages = rootNode.getNode("data", "messages", "claim-command");
+        {
+            claimcommandmessages.getNode("no-referees").setValue("&cYou have not referred anyone!");
+            claimcommandmessages.getNode("successful-referral-player1").setValue("&aYou have been awarded for referring %player%");
+            claimcommandmessages.getNode("successful-referral-player2").setValue("&aYou have been awarded for %player% successfully referring you!");
+        }
+
+        CommentedConfigurationNode checkcommandmessages = rootNode.getNode("data", "messages", "check-command");
+        {
+            checkcommandmessages.getNode("no-referees").setValue("&cYou have not referred anyone!");
+            checkcommandmessages.getNode("stringbuilder-header").setValue("&aPeople you've referred\n\n");
+        }
+
+        CommentedConfigurationNode claimcommandcommands = rootNode.getNode("data", "commands", "claim-command");
+        {
+            claimcommandcommands.getNode("successful-referral-player1").setValue("cratekey give %player% master 1");
+            claimcommandcommands.getNode("successful-referral-player2").setValue("cratekey give %player% master 1");
+        }
+
         save();
+    }
+
+
+    public void populateVariables() {
+        CommentedConfigurationNode refercommandmessages = rootNode.getNode("data", "messages", "refer-command");
+        {
+            referCommandPlayerNotFound = refercommandmessages.getNode("player-not-found").getString();
+            referCommandHasPlayedBefore = refercommandmessages.getNode("has-played-before").getString();
+            referCommandAlreadyReferred = refercommandmessages.getNode("already-referred").getString();
+            referCommandSuccessfullyReferred = refercommandmessages.getNode("successfully-referred").getString();
+        }
+
+        CommentedConfigurationNode claimcommandmessages = rootNode.getNode("data", "messages", "claim-command");
+        {
+            claimCommandNoReferees = claimcommandmessages.getNode("no-referees").getString();
+            claimCommandSuccessfulReferralPlayer1 = claimcommandmessages.getNode("successful-referral-player1").getString();
+            claimCommandSuccessfulReferralPlayer2 = claimcommandmessages.getNode("successful-referral-player2").getString();
+        }
+
+        CommentedConfigurationNode checkcommandmessages = rootNode.getNode("data", "messages", "check-command");
+        {
+            checkCommandNoReferees = checkcommandmessages.getNode("no-referees").getString();
+            checkCommandStringBuilderHeader = checkcommandmessages.getNode("stringbuilder-header").getString();
+        }
+
+        CommentedConfigurationNode claimcommandcommands = rootNode.getNode("data", "commands", "claim-command");
+        {
+            claimCommandCommand1 = claimcommandcommands.getNode("successful-referral-player1").getString();
+            claimCommandCommand2 = claimcommandcommands.getNode("successful-referral-player2").getString();
+        }
     }
 
 

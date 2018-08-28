@@ -26,7 +26,7 @@ public class checkCommand implements CommandExecutor {
 
 
         if (rootNode.getNode("referrals", src.getIdentifier()).isVirtual()) {
-            Utils.sendMessage(src, "&cYou haven't referred anyone!");
+            Utils.sendMessage(src, Main.checkCommandNoReferees);
             return CommandResult.success();
         }
 
@@ -37,7 +37,7 @@ public class checkCommand implements CommandExecutor {
             {
                 //If they HAVE referred someone but currently are not
                 if (referred.isEmpty()) {
-                    Utils.sendMessage(src, "&cYou haven't referred anyone!");
+                    Utils.sendMessage(src, Main.checkCommandNoReferees);
                     return CommandResult.success();
                 }
 
@@ -46,7 +46,7 @@ public class checkCommand implements CommandExecutor {
 
 
             //Make the message that it sent to the player
-            StringBuilder message = new StringBuilder("&aPeople you've referred:\n\n");
+            StringBuilder message = new StringBuilder(Main.checkCommandStringBuilderHeader);
             rankUpperParser rankUpperParser = new rankUpperParser();
             {
                 referred.forEach(s -> {
