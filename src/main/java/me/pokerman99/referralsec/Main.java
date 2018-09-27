@@ -122,7 +122,7 @@ public class Main {
                 .build();
 
         CommandSpec referralCommand = CommandSpec.builder()
-                .permission("referralec.main")
+                .permission("referralsec.main")
                 .child(referCommand, "refer")
                 .child(checkCommand, "check")
                 .child(claimCommand, "claim")
