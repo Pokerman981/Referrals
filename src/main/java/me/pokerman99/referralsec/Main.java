@@ -244,7 +244,7 @@ public class Main {
 
 
 
-public void save() {
+    public void save() {
         try {
             loader.save(rootNode);
         } catch (IOException e) {

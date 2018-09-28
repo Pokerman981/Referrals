@@ -10,13 +10,9 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
-import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.channel.MessageChannel;
 
-import java.io.IOException;
 import java.util.List;
 
-import static me.pokerman99.referralsec.Main.referredNames;
 import static me.pokerman99.referralsec.Main.rootNode;
 
 public class checkCommand implements CommandExecutor {
