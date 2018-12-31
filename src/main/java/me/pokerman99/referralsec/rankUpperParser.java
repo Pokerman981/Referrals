@@ -38,7 +38,7 @@ public class rankUpperParser {
 
 
     public int getPlayTime(String uuid) throws IOException {
-        return ruConfig.getNode(uuid, "TimePlayed").getInt();
+        return ruConfig.getNode(uuid, "TimePlayed").getInt(0);
     }
 
 }
