@@ -70,6 +70,7 @@ public class Main {
 
     public static List<String> referredNames = new ArrayList<>();
 
+    public static rankUpperParser rankUpperParser;
 
     @Listener
     public void onInit(GameInitializationEvent event) throws IOException {
@@ -77,6 +78,7 @@ public class Main {
         {
             rootNode = loader.load();
             instance = this;
+            rankUpperParser = new rankUpperParser();
         }
 
         if (!defaultConfig.toFile().exists()) {

@@ -17,8 +17,7 @@ public class connectionListener {
     public void onJoin(ClientConnectionEvent.Join event) {
 
         try {
-            rankUpperParser rankUpperParser = new rankUpperParser();
-            int time = rankUpperParser.getPlayTime(event.getTargetEntity().getIdentifier());;
+            int time = Main.rankUpperParser.getPlayTime(event.getTargetEntity().getIdentifier());;
             if (time == 0) return;
 
         } catch (IOException e) {

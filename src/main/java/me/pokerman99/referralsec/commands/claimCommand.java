@@ -43,7 +43,7 @@ public class claimCommand implements CommandExecutor {
             }
         }
 
-        rankUpperParser rankUpperParser = new rankUpperParser();
+        rankUpperParser rankUpperParser = Main.rankUpperParser;
         {
             for (String s : referred) {
                 try {

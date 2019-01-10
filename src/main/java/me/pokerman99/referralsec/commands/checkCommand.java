@@ -43,7 +43,7 @@ public class checkCommand implements CommandExecutor {
 
             //Make the message that it sent to the player
             StringBuilder message = new StringBuilder(Main.checkCommandStringBuilderHeader);
-            rankUpperParser rankUpperParser = new rankUpperParser();
+            rankUpperParser rankUpperParser = Main.rankUpperParser;
             {
                 referred.forEach(s -> {
                     try {
