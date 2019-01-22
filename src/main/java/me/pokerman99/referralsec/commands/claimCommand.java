@@ -43,11 +43,10 @@ public class claimCommand implements CommandExecutor {
             }
         }
 
-        rankUpperParser rankUpperParser = Main.rankUpperParser;
         {
             for (String s : referred) {
                 try {
-                    int playTime = rankUpperParser.getPlayTime(s);
+                    int playTime = Main.rankUpperParser.getPlayTime(s);
 
                     if (playTime >= 360) {
 

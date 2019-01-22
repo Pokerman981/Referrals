@@ -43,12 +43,11 @@ public class checkCommand implements CommandExecutor {
 
             //Make the message that it sent to the player
             StringBuilder message = new StringBuilder(Main.checkCommandStringBuilderHeader);
-            rankUpperParser rankUpperParser = Main.rankUpperParser;
             {
                 referred.forEach(s -> {
                     try {
 
-                        message.append("&a" + Utils.getUsername(s) + " - " + rankUpperParser.getPlayTime(s) + " minutes\n");
+                        message.append("&a" + Utils.getUsername(s) + " - " + Main.rankUpperParser.getPlayTime(s) + " minutes\n");
                     } catch (Exception e) {
                         //Empty
                     }
