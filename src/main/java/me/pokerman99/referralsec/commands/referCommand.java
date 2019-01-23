@@ -56,8 +56,7 @@ public class referCommand implements CommandExecutor {
                 user = userStorageService.get(refName).get();
                 refUUID = user.getIdentifier();
             } else {
-                user = userStorageService.get(refName).get();
-                refUUID = user.getIdentifier();
+                //profileManager.get(refName, false).get().
             }
         }
 
