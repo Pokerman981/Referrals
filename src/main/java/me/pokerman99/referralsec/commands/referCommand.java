@@ -44,6 +44,7 @@ public class referCommand implements CommandExecutor {
             try {
                 gameProfile = profileManager.get(name).get();
                 refName = gameProfile.getName().get();
+                refUUID = gameProfile.getUniqueId().toString();
             } catch (ExecutionException | InterruptedException e) {
                 Utils.sendMessage(src, Main.referCommandPlayerNotFound);
                 return CommandResult.empty();
@@ -51,21 +52,13 @@ public class referCommand implements CommandExecutor {
         }
 
 
-        {//It needs to poll the name once thus once the isPresent is called I can grab the user object makes no sense but what ever
-            if (userStorageService.get(refName).isPresent()) {
-                user = userStorageService.get(refName).get();
-                refUUID = user.getIdentifier();
-            } else {
-                //profileManager.get(refName, false).get().
-            }
-        }
+
 
         {//Check if the user has played before & if they've been referred already
-            try {
-                user.get(JoinData.class).get();
+            if (userStorageService.get(gameProfile).isPresent()) {
                 Utils.sendMessage(src, Main.referCommandHasPlayedBefore);
                 return CommandResult.empty();
-            }  catch (NoSuchElementException e) {/*Do nothing*/}
+            }
 
             if (referredNames.contains(refUUID)) {
                 Utils.sendMessage(src, Main.referCommandAlreadyReferred);
